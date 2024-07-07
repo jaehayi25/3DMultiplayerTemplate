@@ -28,14 +28,17 @@ public class ClientPlayerMove : NetworkBehaviour
     // Transform m_CameraFollow;
 
     [SerializeField]
+    private PlayerVisual playerVisual; 
+
+    [SerializeField]
     PlayerInput m_PlayerInput;
 
     RaycastHit[] m_HitColliders = new RaycastHit[4];
 
     void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = true;
 
         // ThirdPersonController & CharacterController are enabled only on owning clients. Ghost player objects have
         // these two components disabled, and will enable a CapsuleCollider. Per the CharacterController documentation: 
@@ -52,6 +55,9 @@ public class ClientPlayerMove : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+
+        PlayerData playerData = GameMultiplayer.Instance.GetPlayerDataFromClientId(OwnerClientId);
+        playerVisual.SetPlayerColor(GameMultiplayer.Instance.GetPlayerColor(playerData.colorId));
 
         enabled = IsClient;
         if (!IsOwner)
@@ -70,8 +76,8 @@ public class ClientPlayerMove : NetworkBehaviour
         // position on owning clients
         m_CharacterController.enabled = true;
 
-        // var cinemachineVirtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        // cinemachineVirtualCamera.Follow = m_CameraFollow;
+        var cinemachineVirtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        cinemachineVirtualCamera.Follow = transform.Find("PlayerCameraRoot");
     }
 
     /*
