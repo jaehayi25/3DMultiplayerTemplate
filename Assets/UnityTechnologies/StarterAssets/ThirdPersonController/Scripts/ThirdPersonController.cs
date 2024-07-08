@@ -3,6 +3,7 @@
 using UnityEngine.InputSystem;
 #endif
 using Unity.Netcode;
+using System.Collections; 
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
@@ -75,6 +76,10 @@ namespace StarterAssets
 
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
+
+
+        [SerializeField]
+        private GameObject blackScreen;
 
         // [SerializeField]
         // private PlayerVisual playerVisual; 
@@ -155,6 +160,8 @@ namespace StarterAssets
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
 
+            blackScreen = GameObject.Find("BlackScreen");
+            blackScreen.SetActive(false); 
             // PlayerData playerData = GameMultiplayer.Instance.GetPlayerDataFromClientId(OwnerClientId);
             // Debug.Log("player's color id: " + playerData.colorId); 
             // playerVisual.SetPlayerColor(GameMultiplayer.Instance.GetPlayerColor(playerData.colorId));
@@ -167,6 +174,7 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            FallCheck();
         }
 
         private void LateUpdate()
@@ -181,6 +189,28 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        }
+
+
+        float fallCheckHeight = -35f; 
+
+        private void FallCheck()
+        {
+            if (transform.position.y < fallCheckHeight + 2f)
+            {
+                StartCoroutine(CameraBlink(0.35f));
+            }
+            if (transform.position.y < fallCheckHeight)
+            {
+                transform.position = new Vector3(0, 15, 0);
+            }
+        }
+
+        private IEnumerator CameraBlink(float blinkTime)
+        {
+            blackScreen.SetActive(true);
+            yield return new WaitForSeconds(blinkTime);
+            blackScreen.SetActive(false);
         }
 
         private void GroundedCheck()

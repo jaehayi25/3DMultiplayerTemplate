@@ -14,16 +14,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: a358e7f4556c847ed94943ab770657f0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PlayerControlDemo.unity
     guid: a787fd759de9c4b588dc49024024309a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Terrain.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ChangingControls.unity
     guid: 08b705309f6db455d896971ecac8e670
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/VisibleObjects.unity
     guid: 62316b361f4d140578458ee86750a09c
   m_configObjects: {}

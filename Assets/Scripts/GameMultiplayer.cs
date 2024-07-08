@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameMultiplayer : NetworkBehaviour
 {
-    private const int MAX_PLAYER_AMT = 4;
+    public const int MAX_PLAYER_AMT = 4;
 
     public event EventHandler OnPlayerDataNetworkListChanged;
 
